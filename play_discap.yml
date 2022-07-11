@@ -1,0 +1,10 @@
+- name: Ensure all hosts has enough disk spae.
+  hosts: all
+  tasks:
+          - name: command runs here
+            command: df -hPT
+            ignore_errors: yes
+            register: df_space_value
+          - name: Print return values
+            debug: 
+               var: df_space_value.stdout_lines

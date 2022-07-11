@@ -1,0 +1,16 @@
+---
+- name: Create the AD groups
+  hosts: wins1160
+  tasks:
+  - name: Create group with delete protection enabled and Read Only naming
+    community.windows.win_domain_group:
+      name: "{{ 'SHARE ' + cifsshare + '_R' }}"
+      scope: global
+      category: security
+      ignore_protection: yes
+  - name: Create group with delete protection enabled and Read/Write naming
+    community.windows.win_domain_group:
+      name: "{{ 'SHARE ' + cifsshare + '_C' }}"
+      scope: global
+      category: security
+      ignore_protection: yes

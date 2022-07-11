@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: false
+  vars:
+    login: &login
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+      feature_flags:
+        trace_apis: true
+        trace_headers: true
+  tasks:
+  - name: Create Qtrees
+    netapp.ontap.na_ontap_qtree:
+      state: present
+      name: "{{ cifsshare }}"
+      flexvol_name: "{{ volname }}"
+      vserver: "{{ vserver }}"
+      security_style: ntfs
+      oplocks: disabled 
+      <<: *login
+  - name: Create CIFS share
+    netapp.ontap.na_ontap_cifs:
+      state: present
+      name: "{{ cifsshare }}"
+      path: "{{ '/' + volname + '/' + cifsshare }}"
+      vserver: "{{ vserver }}"
+      share_properties: browsable,oplocks
+      symlink_properties: read_only,enable
+      comment: CIFS share by ansible 
+      <<: *login
+  - name: Set Quota for this
+    na_ontap_quotas:
+      state: present
+      vserver: "{{ vserver }}" 
+      volume: "{{ volname }}"
+      quota_target: "{{ '/vol/' + volname + '/' + cifsshare }}"
+      type: tree
+      disk_limit: 3MB
+      set_quota_status: True
+      <<: *login

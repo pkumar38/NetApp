@@ -1,0 +1,29 @@
+---
+- name: run the loads and vars
+  hosts: localhost
+  tasks:
+  - name: prepare the loads
+    include_vars: var_file.yml
+- name : run the playbooks
+  import_playbook: play_cresmb.yml 
+- name: run the windows tasks
+  hosts: wins1160
+  tasks:
+  - name: prepare win loads
+    include_vars: var_file.yml
+- name: go with wins tasks
+  import_playbook: play_creadg.yml
+- name: run the loads and vars
+  hosts: localhost
+  tasks:
+  - name: prepare the loads
+    include_vars: var_file.yml
+- name : run the playbooks
+  import_playbook: play_cresec.yml
+- name: run the windows tasks
+  hosts: wins1160
+  tasks:
+  - name: prepare win loads
+    include_vars: var_file.yml
+- name: go with wins tasks
+  import_playbook: play_credfs.yml

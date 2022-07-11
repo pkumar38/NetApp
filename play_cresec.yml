@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: false
+  vars:
+    login: &login
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+      feature_flags:
+        trace_apis: true
+        trace_headers: true
+  tasks:
+  - name: Modify CIFS share acl permission
+    netapp.ontap.na_ontap_cifs_acl:
+      state: present
+      vserver: "{{ vserver }}"
+      share_name: "{{ cifsshare }}"
+      user_or_group: "MADLABS01\\SHARE {{ cifsshare }}_C"
+      permission: change
+      <<: *login
+  - name: Modify CIFS share acl permission with Read
+    netapp.ontap.na_ontap_cifs_acl:
+      state: present
+      vserver: "{{ vserver }}"
+      share_name: "{{ cifsshare }}"
+      user_or_group: "MADLABS01\\SHARE {{ cifsshare }}_R"
+      permission: read
+      <<: *login

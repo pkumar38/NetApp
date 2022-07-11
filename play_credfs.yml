@@ -1,0 +1,20 @@
+---
+- name: Create DFS mapping
+  hosts: wins1160
+  tasks:
+  - name: run power shell script  
+    ansible.windows.win_powershell:
+      script: |
+         [CmdletBinding()]
+         param (
+             [String]
+             $Path,
+
+             [String]
+             $Target
+         )
+         New-DfsnFolder -Path $Path -TargetPath $Target -State Online
+      parameters:
+         Path: "\\\\madlabs.local\\apac\\{{ env }}\\{{ cifsshare }}"
+         Target: "\\\\192.168.1.212\\{{ cifsshare }}"
+    register: dfs_mapping

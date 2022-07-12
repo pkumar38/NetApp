@@ -1,0 +1,6 @@
+---
+- name: Reboot the machines
+  hosts: wins
+  tasks:
+    - name: Reboot the windows machines
+      ansible.windows.win_reboot:

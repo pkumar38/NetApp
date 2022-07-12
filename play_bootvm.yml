@@ -1,0 +1,23 @@
+---
+# Usage of this playbook.
+# ansible-playbook play_bootvm.yml --extra-vars "vmname=ubunweb001". vmname is the name of the VM to bootup 
+- name : Declare hosts
+  hosts: esxi
+  tasks:
+  - name: Boot or Power up an exiting virtual machine on given ESXi hostname
+    community.vmware.vmware_guest:
+          name: "{{ vmname }}"
+          state: poweredon
+          guest_id: ubuntu64Guest
+          datacenter: ha-datacenter
+          hostname: "{{ ansible_host }}"
+          username: "{{ ansible_user }}"
+          password: "{{ ansible_pass }}"
+          validate_certs: false
+          folder: /ha-datacenter/vm
+    delegate_to: localhost
+    register: boot_vm
+  - name: Print the variables.
+    debug:
+      var: boot_vm
+

@@ -1,0 +1,19 @@
+---
+all:
+  hosts:
+  children:
+     rhel:
+       hosts:
+          rhel91:
+             ansible_host: 192.168.1.150
+     vars:
+       ansible_port: 22
+       ansible_user: root
+     ubun:
+       hosts:
+          ubun21:
+             ansible_host: 192.168.1.153
+     win2:
+       hosts:
+          win2k9:
+             ansible_host: 192.168.1.154

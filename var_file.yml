@@ -1,0 +1,8 @@
+hostname: "192.168.1.200"
+username: "admin"
+password: "Welcome123"
+address: "192.168.1.210"
+cifsshare: "gmvol003"
+volname: "na9910pvs00201"
+vserver: "na9910pfs00200"
+env: prd

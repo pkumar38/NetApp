@@ -1,0 +1,7 @@
+---
+vars:
+  ansible_user: Administrator@MADLABS.LOCAL
+  ansible_password: Welcome@123
+  ansible_connection: winrm
+  ansible_winrm_server_cert_validation: ignore
+  ansible_winrm_transport: kerberos

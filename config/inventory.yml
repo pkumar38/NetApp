@@ -1,0 +1,43 @@
+---
+all:
+  hosts:
+  children:
+    rhel:
+       hosts:
+         rhel1150:
+           ansible_host: 192.168.1.150
+    ubun:
+       hosts:
+         ubun1153:
+           ansible_host: 192.168.1.153
+    uweb:
+       hosts:
+         ubun1155:
+           ansible_host: 192.168.1.155
+         ubun1156:
+           ansible_host: 192.168.1.156
+    wins:
+       hosts:
+         wins1160:
+           ansible_host: MADLABS.madlabs.local
+           ansible_password: Welcome@123
+           ansible_user: Administrator@MADLABS.LOCAL
+           ansible_connection: winrm
+           ansible_winrm_server_cert_validation: ignore
+           ansible_winrm_transport: kerberos
+         wins1161:
+           ansible_host: win2k19pam002.madlabs.local
+           ansible_password: Welcome@123
+           ansible_user: Administrator@MADLABS.LOCAL
+           ansible_connection: winrm
+           ansible_winrm_server_cert_validation: ignore
+           ansible_winrm_transport: kerberos
+    esxi:
+       hosts:
+         esxi1100:
+           ansible_host: 192.168.1.100
+           ansible_user: root
+           ansible_pass: Welcome@123
+           ansible_ssh_private_key_file: ~/.ssh/id_rsa
+           ansible_python_interpreter: /bin/python3
+           ansible_ubun_iso: "[datastore1] ubuntu-20.04.4-live-server-amd64.iso"

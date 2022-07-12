@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: false
+  vars:
+    login: &login
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+      feature_flags:
+        trace_apis: true
+        trace_headers: true
+  tasks:
+  - name: run ontap info module using vserver tunneling and ignoring errors
+    na_ontap_info:
+      vserver: "{{ vserver }}"
+      summary: true
+      <<: *login
+      continue_on_error:
+        - missing_vserver_api_error
+        - rpc_error
+    register: on_clusinfo
+  - name: Print return values
+    debug:
+      var: on_clusinfo

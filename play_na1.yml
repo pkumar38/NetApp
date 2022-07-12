@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: false
+  vars:
+    login: &login
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+      feature_flags:
+        trace_apis: true
+        trace_headers: true
+  tasks:
+  - name: run ontap cli command
+    na_ontap_command:
+      command: ['version']      
+      <<: *login
+    register: on_version
+  - name: Print return values
+    debug:
+      var: on_version

@@ -1,0 +1,17 @@
+---
+- name: Install and configure Ngnix
+  hosts: ubun1156
+  tasks:
+    - command: apt update
+    - name: ensure nginx is at the latest version
+      apt: 
+        name: ngnix-1.18.0 
+        update_cache: yes
+    - name: start ngnix
+      service:
+        name: nginx-1.18.0
+        state: started 
+      register: start_value
+    - name: Print the variable and results
+      debug:
+        var: start_value

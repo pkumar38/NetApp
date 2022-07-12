@@ -1,0 +1,12 @@
+---
+- name: Display the boot time using windows powershell.
+  hosts: all
+  tasks:
+  - name: run power shell script  
+    ansible.windows.win_powershell:
+      script: |
+         Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+    register: last_boottime
+  - name: display the values
+    debug:
+        var: last_boottime.output
